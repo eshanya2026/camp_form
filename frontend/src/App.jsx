@@ -283,7 +283,7 @@ export default function App() {
           <AwarenessSidebar />
         </div>
 
-        <footer className="page-footer"><div className="footer-message"><span /><p>A Healthier Community <b>|</b> Together</p><span /></div><a className="admin-link" href="/admin">Admin login</a></footer>
+        <footer className="page-footer"><div className="footer-message"><span /><p>A Healthier Community <b>|</b> Together</p><span /></div></footer>
       </main>
 
       {modalOpen && <div className="modal" role="dialog" aria-modal="true" aria-labelledby="success-title">

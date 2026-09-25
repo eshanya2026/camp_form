@@ -143,8 +143,6 @@ input:disabled { cursor: not-allowed; background: #f2f5f8; color: #9aa8b5; opaci
 .help-card li::before { margin-right: 9px; color: var(--pink-dark); content: "✓"; font-weight: 900; }
 
 .page-footer { position: relative; min-height: 70px; margin-top: 30px; overflow: hidden; }
-.admin-link { display: block; width: fit-content; margin: 10px auto 0; color: var(--muted); text-decoration: none; font-size: .68rem; }
-.admin-link:hover { color: var(--blue); text-decoration: underline; }
 .footer-message { display: flex; align-items: center; justify-content: center; gap: 13px; padding-top: 18px; color: var(--blue); font-size: .74rem; }
 .footer-message p { margin: 0; }
 .footer-message b { margin: 0 10px; color: #9eb5cc; }
