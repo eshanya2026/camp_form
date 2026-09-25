@@ -2,16 +2,20 @@ services:
   mongodb:
     image: mongo:7.0
     restart: unless-stopped
+    command: ["mongod", "--port", "${MONGO_PORT:-3005}", "--bind_ip_all"]
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-campadmin}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-campdevpassword}
+      MONGO_PORT: ${MONGO_PORT:-3005}
+    ports:
+      - "${MONGO_PORT:-3005}:${MONGO_PORT:-3005}"
     volumes:
       - mongo_data:/data/db
     healthcheck:
       test:
         [
           "CMD-SHELL",
-          "mongosh --quiet --username $$MONGO_INITDB_ROOT_USERNAME --password $$MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin --eval \"quit(db.adminCommand('ping').ok ? 0 : 2)\"",
+          "mongosh --quiet --port $$MONGO_PORT --username $$MONGO_INITDB_ROOT_USERNAME --password $$MONGO_INITDB_ROOT_PASSWORD --authenticationDatabase admin --eval \"quit(db.adminCommand('ping').ok ? 0 : 2)\"",
         ]
       interval: 10s
       timeout: 5s
@@ -26,24 +30,26 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: production
-      PORT: 3000
+      PORT: ${BACKEND_PORT:-2005}
       HOST: 0.0.0.0
-      MONGO_URI: mongodb://${MONGO_ROOT_USERNAME:-campadmin}:${MONGO_ROOT_PASSWORD:-campdevpassword}@mongodb:27017/camp_registration?authSource=admin
+      MONGO_URI: mongodb://${MONGO_ROOT_USERNAME:-campadmin}:${MONGO_ROOT_PASSWORD:-campdevpassword}@mongodb:${MONGO_PORT:-3005}/camp_registration?authSource=admin
       MONGO_DB_NAME: camp_registration
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:8080}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:1005}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@hospital.local}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-ChangeMe123!}
       JWT_SECRET: ${JWT_SECRET:-replace-this-development-jwt-secret}
     depends_on:
       mongodb:
         condition: service_healthy
+    ports:
+      - "${BACKEND_PORT:-2005}:${BACKEND_PORT:-2005}"
     healthcheck:
       test:
         [
           "CMD",
           "node",
           "-e",
-          "fetch('http://127.0.0.1:3000/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+          "fetch('http://127.0.0.1:' + process.env.PORT + '/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
         ]
       interval: 10s
       timeout: 5s
@@ -57,7 +63,7 @@ services:
       context: ./frontend
     restart: unless-stopped
     ports:
-      - "${WEB_PORT:-8080}:80"
+      - "${FRONTEND_PORT:-1005}:1005"
     depends_on:
       api:
         condition: service_healthy

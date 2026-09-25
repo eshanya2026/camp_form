@@ -6,11 +6,11 @@ import rateLimit from "@fastify/rate-limit";
 import { MongoClient } from "mongodb";
 import { normalizeCampRequest, validateCampRequest } from "./validation.js";
 
-const port = Number(process.env.PORT || 3000);
+const port = Number(process.env.PORT || 2005);
 const host = process.env.HOST || "0.0.0.0";
-const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017";
+const mongoUri = process.env.MONGO_URI || "mongodb://localhost:3005";
 const databaseName = process.env.MONGO_DB_NAME || "camp_registration";
-const corsOrigin = process.env.CORS_ORIGIN || "http://localhost:5173";
+const corsOrigin = process.env.CORS_ORIGIN || "http://localhost:1005";
 const adminEmail = (process.env.ADMIN_EMAIL || "admin@hospital.local").trim().toLowerCase();
 const adminPassword = process.env.ADMIN_PASSWORD || "ChangeMe123!";
 const jwtSecret = process.env.JWT_SECRET || "replace-this-development-jwt-secret";

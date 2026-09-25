@@ -1,6 +1,6 @@
 # Mobile Mammography Camp Request
 
-A responsive bilingual camp-request application built with React, Vite, Fastify, and MongoDB. The production stack runs with Docker Compose and exposes one public web endpoint.
+A responsive bilingual camp-request application built with React, Vite, Fastify, and MongoDB. The production stack runs with Docker Compose.
 
 ## Architecture
 
@@ -23,7 +23,13 @@ Start the complete stack:
 docker compose up -d --build
 ```
 
-Open [http://localhost:8080](http://localhost:8080).
+Open [http://localhost:1005](http://localhost:1005).
+
+The services are available on these ports:
+
+- Frontend: `1005`
+- Backend API: `2005`
+- MongoDB: `3005`
 
 Check service status and logs:
 
@@ -61,7 +67,7 @@ No public endpoint lists submitted requests because the records contain personal
 
 ## Admin portal
 
-Open [http://localhost:8080/admin](http://localhost:8080/admin) to sign in and view registrations. The admin dashboard provides summary totals, search, status filtering, pagination, and a complete details view for each request.
+Open [http://localhost:1005/admin](http://localhost:1005/admin) to sign in and view registrations. The admin dashboard provides summary totals, search, status filtering, pagination, and a complete details view for each request.
 
 Admin credentials and the JWT signing secret come from `.env`:
 
@@ -89,7 +95,7 @@ npm install
 npm run dev
 ```
 
-Vite runs at `http://localhost:5173` and proxies `/api` to `http://localhost:3000`.
+Vite runs at `http://localhost:1005` and proxies `/api` to `http://localhost:2005`.
 
 ## Verification
 
